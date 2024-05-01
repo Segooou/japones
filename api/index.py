@@ -83,10 +83,10 @@ def get_betano_emails(email_address, password):
 
     return activation_codes_in_emails if activation_codes_in_emails else None
 
+
 @app.route('/')
 def result():
-   return render_template('index2.html')
-
+    return render_template('index2.html')
 
 @app.route('/get_code', methods=['POST'])
 def get_emails(): 
@@ -94,6 +94,10 @@ def get_emails():
     password = request.form['password']
     email_titles = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
     if email_titles:
-        return jsonify({"message": "E-mails da Betano encontrados", "email_titles": email_titles}), 200
+        # Assumindo que você quer exibir apenas o primeiro código encontrado
+        code = email_titles[0]
+        # Supondo que você recebeu o nome do usuário como 'username'
+        username = request.form.get('username')
+        return render_template('get_code.html', code=code, username=username)
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
