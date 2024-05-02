@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obter Código da Betano</title>
 
-    <!-- Importação da tag SpeedInsights -->
+    <!-- Adicionando o script de análise do Vercel -->
     <script type="module">
-        import { injectSpeedInsights } from '@vercel/speed-insights';
-
-        injectSpeedInsights();
+        import { inject } from "@vercel/analytics";
+        inject("sua-chave-do-vercel"); // Substitua "sua-chave-do-vercel" pela sua chave do Vercel
     </script>
 </head>
 <body>
