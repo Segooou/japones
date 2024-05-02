@@ -23,7 +23,7 @@ def extract_activation_code(email_content):
 
         code = strong_tag.text.strip()
         # Adicionando o código de ativação à lista
-
+        print(code)
         if(len(str(code)) == quantidade_de_caracteres_do_codigo): # Verifica se tem 5 caracteres
             if(code.isdigit()): # Verifica se são numeros
                 activation_codes.append(code) # Adiciona
@@ -86,7 +86,7 @@ def get_betano_emails(email_address, password):
 
 @app.route('/')
 def result():
-    return render_template('index2.html')
+   return render_template('index2.html')
 
 @app.route('/get_code', methods=['POST'])
 def get_emails(): 
