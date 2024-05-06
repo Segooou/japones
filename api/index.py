@@ -78,7 +78,12 @@ def get_betano_emails(email_address, password):
                     # Extraindo o nome de usuário da primeira linha do e-mail
                     if not username:
                         lines = email_content.strip().split('\n')
-                        username = lines[0].strip()
+                        for line in lines:
+                            if line.strip():
+                                username = line.strip()
+                                break
+                        if username:
+                            break
                     
                     # Extraindo os códigos de ativação do conteúdo do e-mail
                     activation_codes = extract_activation_code(email_content)
