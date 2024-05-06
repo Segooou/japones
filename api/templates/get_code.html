@@ -6,16 +6,19 @@
     <title>Código de Ativação</title>
 </head>
 <body>
-<!-- Campo de texto para o nome de usuário -->
+    <!-- Campo de texto para o nome de usuário -->
     <div id="usernameContainer">
-        <p>Nome de Usuário:</p><input type="text" id="username" readonly>
+        <p>Nome de Usuário:</p>
+        <input type="text" id="username" value="{{ username }}" readonly>
         <button onclick="copyUsername()">Copiar</button>
-        
     </div>
-    <p>Código de Ativação:</p><input type="text" id="activationCode" value="{{ code }}" readonly>
-    <button onclick="copyActivationCode()">Copiar</button>
 
-
+    <!-- Campo de texto para o código de ativação -->
+    <div id="activationCodeContainer">
+        <p>Código de Ativação:</p>
+        <input type="text" id="activationCode" value="{{ code }}" readonly>
+        <button onclick="copyActivationCode()">Copiar</button>
+    </div>
     
     <script>
         function copyActivationCode() {
@@ -45,13 +48,5 @@
             document.execCommand("copy");
         }
     </script>
-
-    <!-- Verifica se a variável 'username' está definida no template -->
-    {% if username %}
-        <script>
-            /* Se 'username' estiver definido, atualiza o valor do campo de texto do nome de usuário */
-            document.getElementById("username").value = "{{ username }}";
-        </script>
-    {% endif %}
 </body>
 </html>

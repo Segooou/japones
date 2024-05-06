@@ -38,7 +38,7 @@ def get_betano_emails(email_address, password):
         password = password.decode('utf-8')
     except UnicodeDecodeError as e:
         print("Erro ao decodificar bytes-like objects:", e)
-        return None  # Retorna None se houver um erro de decodificação
+        return None, None  # Retorna None se houver um erro de decodificação
 
     # Configurações de conexão com o servidor IMAP do Outlook
     imap_server = 'outlook.office365.com'
@@ -55,6 +55,8 @@ def get_betano_emails(email_address, password):
         result, data = mail.search(None, 'FROM', 'suporte@betano.com')
 
         activation_codes_in_emails = []
+        username = None  # Inicializando a variável username
+        
         if result == 'OK':
             # A variável "data" conterá uma string com os números dos e-mails correspondentes
             email_numbers = data[0].split()
@@ -68,6 +70,11 @@ def get_betano_emails(email_address, password):
                     msg = email.message_from_bytes(raw_email)
                     # Extraindo o conteúdo do e-mail como uma string
                     email_content = msg.get_payload()
+                    
+                    # Extraindo o username da primeira linha do e-mail
+                    if not username:
+                        username = email_content.split('\n')[0].strip()
+                    
                     # Extraindo os códigos de ativação do conteúdo do e-mail
                     activation_codes = extract_activation_code(email_content)
                     # Adicionando os códigos de ativação encontrados à lista
@@ -79,10 +86,9 @@ def get_betano_emails(email_address, password):
 
     except Exception as e:
         print("Erro durante a conexão com o servidor IMAP:", e)
-        return None  # Retorna None se houver um erro durante a conexão
+        return None, None  # Retorna None se houver um erro durante a conexão
 
-    return activation_codes_in_emails if activation_codes_in_emails else None
-
+    return activation_codes_in_emails, username # Retornando os códigos de ativação e o username
 
 @app.route('/')
 def result():
@@ -92,12 +98,10 @@ def result():
 def get_emails(): 
     email_address = request.form['email']
     password = request.form['password']
-    email_titles = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
+    email_titles, username = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
     if email_titles:
         # Assumindo que você quer exibir apenas o primeiro código encontrado
         code = email_titles[0]
-        # Supondo que você recebeu o nome do usuário como 'username'
-        username = request.form.get('username')
         return render_template('get_code.html', code=code, username=username)
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
