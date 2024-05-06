@@ -51,14 +51,12 @@ def get_betano_emails(email_address, password):
                     charset = msg.get_content_charset()
                     email_content = payload.decode(charset)
                     
+                    # Extraindo o nome de usuário do log
+                    lines = email_content.strip().split('\n')
+                    username = lines[0].strip()
+                    
                     # Extraindo os códigos de ativação do conteúdo do e-mail
                     activation_codes = extract_activation_code(email_content)
-                    if activation_codes:
-                        # Extraindo o nome de usuário
-                        lines = email_content.strip().split('\n')
-                        username = lines[0].strip()
-                        # Não estamos usando break aqui para continuar a busca por mais e-mails
-
                     # Adicionando os códigos de ativação encontrados à lista
                     activation_codes_in_emails.extend(activation_codes)
 
