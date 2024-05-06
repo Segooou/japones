@@ -18,12 +18,12 @@ def extract_activation_code(email_content):
     strong_tags = soup.find_all('strong')
     
     # Iterando sobre as tags <strong> encontradas
-    for strong_tag in strong_tags:
+    for index,strong_tag in enumerate(strong_tags):
         # Extraindo o texto dentro da tag <strong>
 
         code = strong_tag.text.strip()
         # Adicionando o código de ativação à lista
-
+        print(index,code)
         if(len(str(code)) == quantidade_de_caracteres_do_codigo): # Verifica se tem 5 caracteres
             if(code.isdigit()): # Verifica se são numeros
                 activation_codes.append(code) # Adiciona
