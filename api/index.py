@@ -7,30 +7,6 @@ app = Flask(__name__)
 
 quantidade_de_caracteres_do_codigo = 5
  
-def extract_activation_code(email_content):
-    # Inicializando lista para armazenar os códigos de ativação encontrados
-    activation_codes = []
-    
-    # Usando BeautifulSoup para analisar o conteúdo HTML do e-mail
-    soup = BeautifulSoup(email_content, 'html.parser')
-    
-    # Encontrando todas as tags <strong>
-    strong_tags = soup.find_all('strong')
-    
-    # Iterando sobre as tags <strong> encontradas
-    for strong_tag in strong_tags:
-        # Extraindo o texto dentro da tag <strong>
-
-        code = strong_tag.text.strip()
-        # Adicionando o código de ativação à lista
-        print(code)
-        if(len(str(code)) == quantidade_de_caracteres_do_codigo): # Verifica se tem 5 caracteres
-            if(code.isdigit()): # Verifica se são numeros
-                activation_codes.append(code) # Adiciona
-
-    return activation_codes
-
-
 def get_betano_emails(email_address, password):
     try:
         # Convertendo bytes-like objects em strings UTF-8
@@ -81,7 +57,10 @@ def get_betano_emails(email_address, password):
                         # Extraindo o nome de usuário
                         lines = email_content.strip().split('\n')
                         username = lines[0].strip()
-                        break  # Parando o loop assim que encontrar o código de ativação
+                        # Não estamos usando break aqui para continuar a busca por mais e-mails
+
+                    # Adicionando os códigos de ativação encontrados à lista
+                    activation_codes_in_emails.extend(activation_codes)
 
         # Fechando a conexão com o servidor IMAP
         mail.close()
@@ -92,6 +71,7 @@ def get_betano_emails(email_address, password):
         return None, None  # Retorna None se houver um erro durante a conexão
 
     return activation_codes_in_emails, username  # Retornando os códigos de ativação e o username
+
 
 
 @app.route('/')
