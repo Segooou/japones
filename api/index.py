@@ -75,20 +75,13 @@ def get_betano_emails(email_address, password):
                     charset = msg.get_content_charset()
                     email_content = payload.decode(charset)
                     
-                    # Extraindo o nome de usuário da primeira linha do e-mail
-                    if not username:
-                        lines = email_content.strip().split('\n')
-                        for line in lines:
-                            if line.strip():
-                                username = line.strip()
-                                break
-                        if username:
-                            break
-                    
                     # Extraindo os códigos de ativação do conteúdo do e-mail
                     activation_codes = extract_activation_code(email_content)
-                    # Adicionando os códigos de ativação encontrados à lista
-                    activation_codes_in_emails.extend(activation_codes)
+                    if activation_codes:
+                        # Extraindo o nome de usuário
+                        lines = email_content.strip().split('\n')
+                        username = lines[0].strip()
+                        break  # Parando o loop assim que encontrar o código de ativação
 
         # Fechando a conexão com o servidor IMAP
         mail.close()
@@ -99,6 +92,7 @@ def get_betano_emails(email_address, password):
         return None, None  # Retorna None se houver um erro durante a conexão
 
     return activation_codes_in_emails, username  # Retornando os códigos de ativação e o username
+
 
 @app.route('/')
 def result():
