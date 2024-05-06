@@ -3,44 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obter Código da Betano</title>
+    <title>Código de Ativação</title>
 
-    <!-- Adicionando o script de análise do Vercel -->
-    <script type="module">
-        import { inject } from "@vercel/analytics";
-        inject("sua-chave-do-vercel"); // Substitua "sua-chave-do-vercel" pela sua chave do Vercel
-    </script>
-</head>
-<body>
-    <h2>Gerar código Outlook/Hotmail</h2>
-    <form action="/get_code" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required autocomplete="email"><br><br>
-        <label for="password">Senha:</label>
-        <input type="text" id="password" name="password" required><br><br> <!-- Alterado para "text" -->
-        <button type="submit">Obter Código</button>
-    </form>
-    
-    <!-- Adicionando o campo de texto para exibir o código recebido -->
-    <div id="receivedCodeContainer" style="display: none;">
-        <h2>Código Recebido:</h2>
-        <input type="text" id="receivedCode" readonly>
-    </div>
-
-    <script>
-        // Função para exibir o código recebido no campo de texto
-        function displayReceivedCode(code) {
-            document.getElementById("receivedCode").value = code;
-            document.getElementById("receivedCodeContainer").style.display = "block";
+    <style>
+        body{
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: '#fff';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    </script>
+        .area-input{
+            background-color: rgb(233, 232, 232);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+        }
+        .area-input p{
+            font-size: 16;
+            font-weight: bold;
+        }
+        .area-input input{
+            height: 25px;
+            border-radius: 8px;
+            border-color: aliceblue;
+            margin-right: 6px;
+            padding: 3px;
+        }
+        .area-input button{
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            border-color: aliceblue;
+            color: #000;
+            font-weight: bold;
+            font-size: small;
+        }
+        .area-input button:hover{
+            transition: 0.5s;
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+    </style>
 
-    <!-- Verifica se a variável 'code' está definida no template -->
-    {% if code %}
+</head>
+
+
+<body>
+    <div>
+        <div class="area-input">
+            <!-- Campo de texto para o nome de usuário -->
+            <div id="usernameContainer">
+                <p>Nome de Usuário:</p><input type="text" id="username" readonly>
+                <button onclick="copyUsername()">Copiar</button>
+                
+            </div>
+            <p>Código de Ativação:</p><input type="text" id="activationCode" value="{{ code }}" readonly>
+            <button onclick="copyActivationCode()">Copiar</button>
+        </div>
+
+        
         <script>
-            // Se 'code' estiver definido, chama a função para exibir o código recebido
-            displayReceivedCode("{{ code }}");
+            function copyActivationCode() {
+                /* Seleciona o campo de texto do código de ativação */
+                var activationCodeField = document.getElementById("activationCode");
+                
+                /* Seleciona o texto no campo de texto */
+                activationCodeField.select();
+                activationCodeField.setSelectionRange(0, 99999); /* Para dispositivos móveis */
+
+                /* Copia o texto selecionado */
+                document.execCommand("copy");
+
+                /* Exibe o container do nome de usuário */
+                document.getElementById("usernameContainer").style.display = "block";
+            }
+
+            function copyUsername() {
+                /* Seleciona o campo de texto do nome de usuário */
+                var usernameField = document.getElementById("username");
+                
+                /* Seleciona o texto no campo de texto */
+                usernameField.select();
+                usernameField.setSelectionRange(0, 99999); /* Para dispositivos móveis */
+
+                /* Copia o texto selecionado */
+                document.execCommand("copy");
+            }
         </script>
-    {% endif %}
+
+        <!-- Verifica se a variável 'username' está definida no template -->
+        {% if username %}
+            <script>
+                /* Se 'username' estiver definido, atualiza o valor do campo de texto do nome de usuário */
+                document.getElementById("username").value = "{{ username }}";
+            </script>
+        {% endif %}
+    </div>
 </body>
 </html>
