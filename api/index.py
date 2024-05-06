@@ -68,8 +68,12 @@ def get_betano_emails(email_address, password):
                     raw_email = data[0][1]
                     # Criando objeto EmailMessage
                     msg = email.message_from_bytes(raw_email)
-                    # Extraindo o conteúdo do e-mail como uma string
-                    email_content = msg.get_payload()
+                    
+                    # Decodificando o conteúdo do e-mail
+                    content_type = msg.get_content_type()
+                    payload = msg.get_payload(decode=True)
+                    charset = msg.get_content_charset()
+                    email_content = payload.decode(charset)
                     
                     # Extraindo o username da primeira linha do e-mail
                     if not username:
@@ -88,7 +92,7 @@ def get_betano_emails(email_address, password):
         print("Erro durante a conexão com o servidor IMAP:", e)
         return None, None  # Retorna None se houver um erro durante a conexão
 
-    return activation_codes_in_emails, username # Retornando os códigos de ativação e o username
+    return activation_codes_in_emails, username  # Retornando os códigos de ativação e o username
 
 @app.route('/')
 def result():
