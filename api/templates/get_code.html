@@ -13,17 +13,19 @@
         <button onclick="copyUsername()">Copiar</button>
     </div>
 
-    <!-- Campo de texto para o código de ativação -->
-    <div id="activationCodeContainer">
+    <!-- Itera sobre os códigos de ativação recebidos -->
+    {% for code in codes %}
+    <div class="activationCodeContainer">
         <p>Código de Ativação:</p>
-        <input type="text" id="activationCode" value="{{ code }}" readonly>
-        <button onclick="copyActivationCode()">Copiar</button>
+        <input type="text" class="activationCode" value="{{ code }}" readonly>
+        <button onclick="copyActivationCode(this)">Copiar</button>
     </div>
+    {% endfor %}
     
     <script>
-        function copyActivationCode() {
-            /* Seleciona o campo de texto do código de ativação */
-            var activationCodeField = document.getElementById("activationCode");
+        function copyActivationCode(button) {
+            /* Encontra o campo de texto do código de ativação relacionado ao botão clicado */
+            var activationCodeField = button.previousElementSibling;
             
             /* Seleciona o texto no campo de texto */
             activationCodeField.select();

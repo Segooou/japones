@@ -92,8 +92,8 @@ def result():
 def get_emails(): 
     email_address = request.form['email']
     password = request.form['password']
-    email_titles = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
-    if email_titles:
-        return jsonify({"message": "E-mails da Betano encontrados", "email_titles": email_titles}), 200
+    activation_codes = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
+    if activation_codes:
+        return render_template('get_code.html', codes=activation_codes, username=email_address), 200
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
