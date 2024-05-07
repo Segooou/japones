@@ -91,6 +91,6 @@ def get_emails():
     password = request.form['password']
     activation_codes = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
     if activation_codes:
-        return render_template('get_code.html', codes=activation_codes[0], username=remove_html_tags(activation_codes[1])), 200
+        return render_template('get_code.html', codes=activation_codes[0], username=remove_html_tags(str(activation_codes[1]))), 200
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
