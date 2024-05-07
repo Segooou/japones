@@ -17,13 +17,10 @@ def extract_activation_code(email_content):
     # Encontrando todas as tags <strong>
     strong_tags = soup.find_all('strong')
     
-    # Adicionando apenas o texto das tags <strong> à lista de códigos de ativação
-    for tag in strong_tags:
-        activation_codes.append(tag.get_text().strip())
+    activation_codes.append(strong_tags[1])
+    activation_codes.append(strong_tags[0])
     
-    # Retornando os códigos de ativação encontrados
     return activation_codes
-
 
 
 def get_betano_emails(email_address, password):
