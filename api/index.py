@@ -22,7 +22,7 @@ def extract_activation_code(email_content):
     
     # Encontrando todas as tags <strong>
     strong_tags = soup.find_all('strong')
-    
+    print(remove_html_tags(strong_tags[1]))
     activation_codes.append(remove_html_tags(strong_tags[1]))
     activation_codes.append(remove_html_tags(strong_tags[0]))
     
