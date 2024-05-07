@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 quantidade_de_caracteres_do_codigo = 5
 
-
+def remove_html_tags(text):
+    soup = BeautifulSoup(text, "html.parser")
+    return soup.get_text()
 
 
 def extract_activation_code(email_content):
@@ -19,8 +21,7 @@ def extract_activation_code(email_content):
     
     # Encontrando todas as tags <strong>
     strong_tags = soup.find_all('strong')
-    print(strong_tags[1])
-    print(strong_tags[0])
+  
     activation_codes.append(strong_tags[1])
     activation_codes.append(strong_tags[0])
     
@@ -90,6 +91,6 @@ def get_emails():
     password = request.form['password']
     activation_codes = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
     if activation_codes:
-        return render_template('get_code.html', codes=activation_codes[0], username=activation_codes[1]), 200
+        return render_template('get_code.html', codes=activation_codes[0], username=remove_html_tags(activation_codes[1])), 200
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
