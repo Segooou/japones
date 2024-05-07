@@ -7,21 +7,23 @@ app = Flask(__name__)
 
 quantidade_de_caracteres_do_codigo = 5
  
+import re
+
 def extract_activation_code(email_content):
-    # Inicializando lista para armazenar os códigos de ativação encontrados
-    activation_codes = []
-    
     # Usando BeautifulSoup para analisar o conteúdo HTML do e-mail
     soup = BeautifulSoup(email_content, 'html.parser')
     
-    # Encontrando todas as tags <strong>
-    strong_tags = soup.find_all('strong')
+    # Procurando por padrão de código de ativação (por exemplo, 6 dígitos)
+    activation_code_pattern = re.compile(r'\b\d{6}\b')  # Padrão para 6 dígitos
     
-    # Adicionando o texto das tags <strong> à lista de códigos de ativação
-    activation_codes.append(strong_tags[1].get_text())
-    activation_codes.append(strong_tags[0].get_text())
+    # Encontrando o primeiro padrão correspondente no conteúdo do e-mail
+    match = activation_code_pattern.search(email_content)
     
-    return activation_codes
+    if match:
+        return match.group()
+    else:
+        return None
+
 
 
 
