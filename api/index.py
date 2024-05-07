@@ -1,5 +1,4 @@
 import imaplib
-import re
 import email 
 from flask import Flask, render_template, request, jsonify
 from bs4 import BeautifulSoup 
@@ -9,8 +8,8 @@ app = Flask(__name__)
 quantidade_de_caracteres_do_codigo = 5
 
 def remove_html_tags(text):
-    clean = re.compile('<.*?>')
-    return re.sub(clean, '', text)
+    soup = BeautifulSoup(text, "html.parser")
+    return soup.get_text()
 
 
 def extract_activation_code(email_content):
