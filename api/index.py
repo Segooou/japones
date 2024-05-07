@@ -17,17 +17,9 @@ def extract_activation_code(email_content):
     # Encontrando todas as tags <strong>
     strong_tags = soup.find_all('strong')
     
-    # Iterando sobre as tags <strong> encontradas
-    for index,strong_tag in enumerate(strong_tags):
-        # Extraindo o texto dentro da tag <strong>
-
-        code = strong_tag.text.strip()
-        # Adicionando o código de ativação à lista
-        print(index,code)
-        if(len(str(code)) == quantidade_de_caracteres_do_codigo): # Verifica se tem 5 caracteres
-            if(code.isdigit()): # Verifica se são numeros
-                activation_codes.append(code) # Adiciona
-
+    activation_codes.append(strong_tags[1])
+    activation_codes.append(strong_tags[0])
+    
     return activation_codes
 
 
@@ -94,6 +86,6 @@ def get_emails():
     password = request.form['password']
     activation_codes = get_betano_emails(email_address.encode('utf-8'), password.encode('utf-8'))
     if activation_codes:
-        return render_template('get_code.html', codes=activation_codes, username=email_address), 200
+        return render_template('get_code.html', codes=activation_codes[0], username=activation_codes[1]), 200
     else:
         return jsonify({"message": "Nenhum e-mail da Betano encontrado"}), 404
