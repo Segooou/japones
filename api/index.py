@@ -7,9 +7,7 @@ app = Flask(__name__)
 
 quantidade_de_caracteres_do_codigo = 5
 
-def remove_html_tags(text):
-    soup = BeautifulSoup(text, "html.parser")
-    return soup.get_text()
+
 
 
 def extract_activation_code(email_content):
@@ -21,8 +19,8 @@ def extract_activation_code(email_content):
     
     # Encontrando todas as tags <strong>
     strong_tags = soup.find_all('strong')
-    print(remove_html_tags(strong_tags[1]))
-    print(remove_html_tags(strong_tags[0]))
+    print(strong_tags[1])
+    print(strong_tags[0])
     activation_codes.append(strong_tags[1])
     activation_codes.append(strong_tags[0])
     
